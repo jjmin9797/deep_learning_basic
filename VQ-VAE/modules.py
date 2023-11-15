@@ -42,11 +42,9 @@ class VQEmbedding(nn.Module):
     def straight_through(self, z_e_x):
         # converting BCHW --> BHWC
         z_e_x_ = z_e_x.permute(0, 2, 3, 1).contiguous()
-
         # z_q_x --> latent code from the embedding nearest to the input code
         z_q_x_, indices = vq_st(z_e_x_, self.embedding.weight.detach())
         z_q_x = z_q_x_.permute(0, 3, 1, 2).contiguous()
-
         # z_q_x_bar --> backprop possible
         z_q_x_bar_flatten = torch.index_select(self.embedding.weight,
                                                dim=0, index=indices)
@@ -115,6 +113,5 @@ class VectorQuantizedVAE(nn.Module):
         z_e_x = self.encoder(x)
         z_q_x_st, z_q_x = self.codeBook.straight_through(z_e_x)
         x_tilde = self.decoder(z_q_x_st)
-        print(self.codeBook)
         return x_tilde, z_e_x, z_q_x
     

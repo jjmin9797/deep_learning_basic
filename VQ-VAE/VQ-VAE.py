@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from modules import VectorQuantizedVAE
 from datetime import datetime
 import time
+#https://github.com/praeclarumjj3/VQ-VAE-on-MNIST/blob/master/generate.py
 from torch.utils.tensorboard import SummaryWriter
 def create_file(text):
     file_path = "./test.txt"

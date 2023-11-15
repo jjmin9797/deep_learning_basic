@@ -8,11 +8,9 @@ class VectorQuantization(Function) :
         with torch.no_grad():
             # assigning the dimension of our embedding
             embedding_size = codeBook.size(1)
-
             inputs_size = inputs.size()
             # Flatten input
             inputs_flatten = inputs.view(-1, embedding_size)
-
             codeBook_sqr = torch.sum(codeBook ** 2, dim=1)
             inputs_sqr = torch.sum(inputs_flatten ** 2, dim=1, keepdim=True)
 
@@ -23,7 +21,8 @@ class VectorQuantization(Function) :
             _, indices_flatten = torch.min(distances, dim=1)
             indices = indices_flatten.view(*inputs_size[:-1])
             ctx.mark_non_differentiable(indices)
-
+            print(indices)
+            print(indices.size())
             return indices
 
     @staticmethod
